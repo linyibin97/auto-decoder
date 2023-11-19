@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@primer/octicons-react':
+    specifier: ^19.8.0
+    version: 19.8.0(react@18.2.0)
   '@primer/react':
     specifier: ^36.2.0
     version: 36.2.0(@types/react-dom@18.2.15)(@types/react@18.2.37)(react-dom@18.2.0)(react@18.2.0)(styled-components@5.3.11)

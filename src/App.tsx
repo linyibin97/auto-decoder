@@ -7,9 +7,13 @@ import {
   Textarea,
   Heading,
   Select,
-  FormControl,
+  Header,
+  Button,
+  Text,
+  Box,
   ThemeProviderProps,
 } from "@primer/react";
+import { GitCompareIcon, SunIcon, MoonIcon } from "@primer/octicons-react";
 import { useState } from "react";
 
 enum Transformer {
@@ -76,9 +80,74 @@ function App() {
             containerWidth="full"
             padding="none"
             columnGap="none"
+            rowGap="none"
           >
-            <PageLayout.Content padding="normal" sx={{ height: "100vh" }}>
-              <Heading sx={{ fontSize: 3 }}>Decoded</Heading>
+            <PageLayout.Header padding="none">
+              <Header sx={{ bg: "canvas.subtle", color: "fg.default" }}>
+                <Header.Item>
+                  <GitCompareIcon size={30} />
+                </Header.Item>
+                <Header.Item>
+                  <Heading sx={{ fontSize: 4 }}>Encode-Decode</Heading>
+                </Header.Item>
+                <Header.Item full></Header.Item>
+                <Header.Item>
+                  <Button
+                    onClick={() => {
+                      setColorMode((colorMode + 1) % 3);
+                    }}
+                  >
+                    {colorMode === ColorMode.LIGHT ? <SunIcon /> : <MoonIcon />}
+                    <Text sx={{ ml: 1 }}>
+                      {colorMode === ColorMode.AUTO
+                        ? "Auto"
+                        : colorMode === ColorMode.DARK
+                          ? "Dark"
+                          : colorMode === ColorMode.LIGHT
+                            ? "Light"
+                            : ""}
+                    </Text>
+                  </Button>
+                </Header.Item>
+                {/* <Header.Item>
+                  <Select
+                    value={colorMode.toString()}
+                    onChange={(e) => {
+                      setColorMode(+e.target.value);
+                    }}
+                  >
+                    <Select.Option value={ColorMode.AUTO.toString()}>
+                      auto
+                    </Select.Option>
+                    <Select.Option value={ColorMode.LIGHT.toString()}>
+                      light
+                    </Select.Option>
+                    <Select.Option value={ColorMode.DARK.toString()}>
+                      dark
+                    </Select.Option>
+                  </Select>
+                </Header.Item> */}
+              </Header>
+            </PageLayout.Header>
+            <PageLayout.Content padding="normal" sx={{ px: "5vw" }}>
+              <Heading sx={{ fontSize: 3, my: 2 }}>Method</Heading>
+              <Box sx={{ pb: 20 }}>
+                <Select
+                  value={currTrans.toString()}
+                  onChange={(e) => {
+                    clear();
+                    setCurrTrans(+e.target.value);
+                  }}
+                >
+                  <Select.Option value={Transformer.URIComponent.toString()}>
+                    URIComponent
+                  </Select.Option>
+                  <Select.Option value={Transformer.URI.toString()}>
+                    URI
+                  </Select.Option>
+                </Select>
+              </Box>
+              <Heading sx={{ fontSize: 3, my: 2 }}>Decoded</Heading>
               <Textarea
                 block
                 resize="none"
@@ -95,7 +164,7 @@ function App() {
                   marginBottom: 20,
                 }}
               />
-              <Heading sx={{ fontSize: 3 }}>Encoded</Heading>
+              <Heading sx={{ fontSize: 3, my: 2 }}>Encoded</Heading>
               <Textarea
                 block
                 resize="none"
@@ -112,50 +181,6 @@ function App() {
                 }}
               />
             </PageLayout.Content>
-            <PageLayout.Pane
-              position="start"
-              padding="normal"
-              sx={{ bg: "canvas.subtle" }}
-            >
-              <FormControl>
-                <FormControl.Label>Method</FormControl.Label>
-                <Select
-                  value={currTrans.toString()}
-                  onChange={(e) => {
-                    clear();
-                    setCurrTrans(+e.target.value);
-                  }}
-                >
-                  <Select.Option value={Transformer.URIComponent.toString()}>
-                    URIComponent
-                  </Select.Option>
-                  <Select.Option value={Transformer.URI.toString()}>
-                    URI
-                  </Select.Option>
-                </Select>
-           
-              </FormControl>
-              <FormControl>
-              <FormControl.Label>Darkmode</FormControl.Label>
-                <Select
-                  value={colorMode.toString()}
-                  onChange={(e) => {
-                    setColorMode(+e.target.value);
-                  }}
-                >
-                  <Select.Option value={ColorMode.AUTO.toString()}>
-                    auto
-                  </Select.Option>
-                  <Select.Option value={ColorMode.LIGHT.toString()}>
-                    light
-                  </Select.Option>
-                  <Select.Option value={ColorMode.DARK.toString()}>
-                    dark
-                  </Select.Option>
-                </Select>
-              </FormControl>
-          
-            </PageLayout.Pane>
           </PageLayout>
         </BaseStyles>
       </ThemeProvider>

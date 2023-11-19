@@ -5,8 +5,9 @@ import {
   BaseStyles,
   PageLayout,
   Textarea,
-  Button,
   Heading,
+  Select,
+  FormControl,
   ThemeProviderProps,
 } from "@primer/react";
 import { useState } from "react";
@@ -29,8 +30,8 @@ const TransformerMap = {
 
 enum ColorMode {
   AUTO = 0,
-  DARK,
   LIGHT,
+  DARK,
 }
 
 const ColorModeMap: Record<number, ThemeProviderProps["colorMode"]> = {
@@ -61,10 +62,10 @@ function App() {
     Transformer.URIComponent
   );
 
-  // const clear = () => {
-  //   setRawText("");
-  //   setEncodedText("");
-  // };
+  const clear = () => {
+    setRawText("");
+    setEncodedText("");
+  };
 
   return (
     <React.StrictMode>
@@ -116,26 +117,44 @@ function App() {
               padding="normal"
               sx={{ bg: "canvas.subtle" }}
             >
-              <Button
-                block
-                onClick={() => {
-                  if (currTrans === Transformer.URI) {
-                    setCurrTrans(Transformer.URIComponent);
-                  } else {
-                    setCurrTrans(Transformer.URI);
-                  }
-                }}
-              >
-                {Transformer[currTrans]}
-              </Button>
-              <Button
-                block
-                onClick={() => {
-                  setColorMode((colorMode + 1) % 3);
-                }}
-              >
-                {ColorModeMap[colorMode]}
-              </Button>
+              <FormControl>
+                <FormControl.Label>Method</FormControl.Label>
+                <Select
+                  value={currTrans.toString()}
+                  onChange={(e) => {
+                    clear();
+                    setCurrTrans(+e.target.value);
+                  }}
+                >
+                  <Select.Option value={Transformer.URIComponent.toString()}>
+                    URIComponent
+                  </Select.Option>
+                  <Select.Option value={Transformer.URI.toString()}>
+                    URI
+                  </Select.Option>
+                </Select>
+           
+              </FormControl>
+              <FormControl>
+              <FormControl.Label>Darkmode</FormControl.Label>
+                <Select
+                  value={colorMode.toString()}
+                  onChange={(e) => {
+                    setColorMode(+e.target.value);
+                  }}
+                >
+                  <Select.Option value={ColorMode.AUTO.toString()}>
+                    auto
+                  </Select.Option>
+                  <Select.Option value={ColorMode.LIGHT.toString()}>
+                    light
+                  </Select.Option>
+                  <Select.Option value={ColorMode.DARK.toString()}>
+                    dark
+                  </Select.Option>
+                </Select>
+              </FormControl>
+          
             </PageLayout.Pane>
           </PageLayout>
         </BaseStyles>
